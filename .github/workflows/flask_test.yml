@@ -1,0 +1,39 @@
+name: Flask App Tests
+
+
+# trigger: when workflow should run
+on:
+  pull_request:
+    # when pull request trigger main branch
+    branches:
+      - main
+
+
+# define task
+jobs:
+  test:
+    # test on os 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # command will be excuted in 
+        # default working directory 
+        working-directory: ./app/
+    # matrix strategy allows testing across different environments or configurations.
+    strategy:
+      matrix:
+        python-version: [3.8]
+    env:
+      MODE: "dev"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ../requirements.txt
+      - name: Test App code
+        run: python ./main_test.py
