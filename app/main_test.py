@@ -13,5 +13,5 @@ class TestMain(unittest, TestCase):
         self.assertEqual(os.environ.get("MODE"), get_mode())
 
 
-if __name == "__main__":
+if "__name__" == "__main__":
     unittest.main()
